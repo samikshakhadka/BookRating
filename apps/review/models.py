@@ -1,9 +1,9 @@
-# review/models.py
 from django.db import models
-from django.conf import settings
+from django.core.validators import MaxValueValidator, MinValueValidator
+
 from apps.book.models import Book
 from apps.user.models import CustomUser 
-from django.core.validators import MaxValueValidator, MinValueValidator
+
 
 class Opinion(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)

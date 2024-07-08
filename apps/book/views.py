@@ -1,10 +1,10 @@
 from rest_framework import  status, viewsets, permissions
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from .models import Book, Favorite
-from .serializers import  FavoriteSerializer , BookModelSerializer
-from django.shortcuts import get_object_or_404
 from rest_framework.decorators import action
+
+from .models import Book, Favorite
+from .serializers import BookModelSerializer
 from .permissions import IsOwner
 
 class BookViewSet(viewsets.ModelViewSet):

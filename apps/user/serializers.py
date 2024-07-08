@@ -1,12 +1,11 @@
-from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
-from rest_framework.authtoken.models import Token
-from rest_framework.validators import UniqueValidator
 from django.core.mail import send_mail
 from django.conf import settings
 from django.urls import reverse
 from django.contrib.auth import authenticate
+
+from rest_framework import serializers
 
 
 User = get_user_model()

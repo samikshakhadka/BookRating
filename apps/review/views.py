@@ -1,8 +1,10 @@
 from rest_framework import viewsets, permissions
-from .models import Opinion, Book
-from .serializers import ReviewSerializer, AverageRatingSerializer
 from rest_framework.decorators import action
 from rest_framework.response import Response
+
+from .models import Opinion, Book
+from .serializers import ReviewSerializer, AverageRatingSerializer
+
 
 class ReviewViewSet(viewsets.ModelViewSet):
     queryset = Opinion.objects.all()

@@ -1,11 +1,10 @@
 import uuid
+
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.core.mail import send_mail
-from django.conf import settings
-from django.urls import reverse
+
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -23,12 +22,6 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault('is_staff', True)
         
         return self.create_user(email, password, **extra_fields)
-
-    # def send_verification_email(self, user):
-    #     verification_url = f"{settings.SITE_URL}{reverse('verify-email', args=[user.verification_token])}"
-    #     subject = 'Verify your email'
-    #     message = f'Hi {user.email}, please verify your email by clicking the link: {verification_url}'
-    #     send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user.email])
 
 class CustomUser(AbstractBaseUser):
     email = models.EmailField(unique=True)
