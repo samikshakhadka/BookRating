@@ -7,6 +7,9 @@ from django.contrib.auth import authenticate
 
 from rest_framework import serializers
 
+from .utils import send_verification_email
+
+
 
 User = get_user_model()
 
@@ -27,20 +30,15 @@ class RegisterSerializer(serializers.ModelSerializer):
         fields = ('email', 'password', 'first_name', 'last_name')
 
     def create(self, validated_data):
+        
         user = User.objects.create_user(
             email=validated_data['email'],
             password=validated_data['password'],
             first_name=validated_data.get('first_name', ''),
             last_name=validated_data.get('last_name', '')
         )
-        self.send_verification_email(user)
+        send_verification_email(user)
         return user
-       
-    def send_verification_email(self, user):
-        verification_url = f"{settings.SITE_URL}{reverse('verify-email', args=[user.verification_token])}"
-        subject = 'Verify your email'
-        message = f'Hi {user.email}, please verify your email by clicking the link: {verification_url}'
-        send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user.email])
 
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)

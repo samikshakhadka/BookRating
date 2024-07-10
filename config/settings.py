@@ -122,20 +122,21 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env('DJANGO_DB_NAME'),
+        'NAME': env('DJANGO_DB_NAME'), #'NAME': "CloneStore1"
         'USER': env('DJANGO_DB_USER'),
         'PASSWORD': env('DJANGO_DB_PASS'),
         'HOST': env('DJANGO_DB_HOST'),
-        'PORT': "5433",
+        'PORT': env("PORT"),
     }
 }
+print(DATABASES)
 
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
+        #'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication'
+        #'rest_framework.authentication.SessionAuthentication'
         
     ),
     'DEFAUTL_PERMISSION_CLASSES': (
