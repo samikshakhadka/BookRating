@@ -1,8 +1,8 @@
+from django.core.cache import cache
 from rest_framework import  status, viewsets, permissions
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import action
-
 from .models import Book, Favorite
 from .serializers import BookModelSerializer
 from .permissions import IsOwner
@@ -46,10 +46,15 @@ class BookViewSet(viewsets.ModelViewSet):
         
     @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
     def list_favorites(self, request):
-        favorites = Favorite.objects.filter(user=request.user)
-        books = [favorite.book for favorite in favorites]
-        serializer = BookModelSerializer(books, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+            user = request.user
+            cache_key = f'user_favorites_{user.id}'
+            books = cache.get(cache_key)
+            if not books:
+                favorites = Favorite.objects.filter(user=request.user)
+                books = [favorite.book for favorite in favorites]
+                cache.set(cache_key, books, 60 * 15)
+            serializer = BookModelSerializer(books, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
     
     def get_permissions(self):
         if self.action == 'list':
