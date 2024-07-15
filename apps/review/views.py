@@ -1,5 +1,6 @@
 from django.db.models import Avg
-
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -16,7 +17,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-   
+    @method_decorator(cache_page(60 * 3))
     @action(detail=False, methods=['get'], serializer_class= AverageRatingSerializer, permission_classes=[permissions.AllowAny])
     def average_ratings(self, request):
         queryset = Book.objects.all()

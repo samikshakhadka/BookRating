@@ -1,7 +1,10 @@
+from django.core.cache import cache
 from rest_framework import  status, viewsets, permissions
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from .models import Book, Favorite
 from .serializers import BookModelSerializer
 from .permissions import IsOwner
@@ -42,11 +45,17 @@ class BookViewSet(viewsets.ModelViewSet):
             return Response({'status': 'Book unmarked as favorite'}, status=status.HTTP_204_NO_CONTENT)
         except Favorite.DoesNotExist:
             return Response({'status': 'Book was not marked as favorite'}, status=status.HTTP_400_BAD_REQUEST)
-        
+
+    @method_decorator(cache_page(60 * 15))   
     @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
     def list_favorites(self, request):
-            favorites = Favorite.objects.filter(user=request.user)
-            books = [favorite.book for favorite in favorites]  
+            user = request.user
+            cache_key = f'user_favorites_{user.id}'
+            books = cache.get(cache_key)
+            if not books:
+                favorites = Favorite.objects.filter(user=request.user)
+                books = [favorite.book for favorite in favorites] 
+                cache.set(cache_key, books, 60 * 3) 
             serializer = BookModelSerializer(books, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
     
