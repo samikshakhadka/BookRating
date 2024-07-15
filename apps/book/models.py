@@ -20,5 +20,6 @@ class Favorite(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
 
+
     class Meta:
         unique_together = ('user', 'book')
