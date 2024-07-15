@@ -22,6 +22,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
         serializer = AverageRatingSerializer(queryset, many=True)
         return Response(serializer.data)
 
+# 
     def get_permissions(self):
         if self.action == 'list':
             return [permissions.AllowAny()]
