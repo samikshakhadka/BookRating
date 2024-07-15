@@ -12,7 +12,17 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 import environ
 from pathlib import Path
-ENV_DIR = environ.Path(__file__) - 2 
+
+PROJECT_DIR = os.path.dirname(os.path.dirname(
+    os.path.dirname(os.path.abspath(__file__))))
+
+ROOT_DIR = os.path.dirname(PROJECT_DIR)
+
+APPS_DIR = os.path.join(PROJECT_DIR, 'apps')
+
+BASE_DIR = os.path.join(PROJECT_DIR, 'config')
+
+# ENV_DIR = environ.Path(__file__) - 2 
 
 env = environ.Env(
     DEBUG=(bool, False),
@@ -30,21 +40,14 @@ env = environ.Env(
     SITE_URL=str,
 )
 environ.Env.read_env()
-ENV_FILE = str(ENV_DIR.path('.env'))  
-environ.Env.read_env(ENV_FILE)
+# ENV_FILE = str(ENV_DIR.path('.env'))  
+# environ.Env.read_env(ENV_FILE)
 
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 DEBUG = env("DEBUG")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-PROJECT_DIR = os.path.dirname(os.path.dirname(
-    os.path.dirname(os.path.abspath(__file__))))
 
-ROOT_DIR = os.path.dirname(PROJECT_DIR)
-
-APPS_DIR = os.path.join(PROJECT_DIR, 'apps')
-
-BASE_DIR = os.path.join(PROJECT_DIR, 'config')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR = Path(__file__).resolve().parent.parent
@@ -77,7 +80,7 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'django_extensions',
-    'drf_yasg'
+    'drf_yasg',
 ]
 
 LOCAL_APPS = [
@@ -122,7 +125,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env('DJANGO_DB_NAME'), #'NAME': "CloneStore1"
+        'NAME': env('DJANGO_DB_NAME'), 
         'USER': env('DJANGO_DB_USER'),
         'PASSWORD': env('DJANGO_DB_PASS'),
         'HOST': env('DJANGO_DB_HOST'),
@@ -136,7 +139,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         #'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-        #'rest_framework.authentication.SessionAuthentication'
+        'rest_framework.authentication.SessionAuthentication'
         
     ),
     'DEFAUTL_PERMISSION_CLASSES': (
