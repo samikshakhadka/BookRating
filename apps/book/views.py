@@ -53,6 +53,8 @@ class BookViewSet(viewsets.ModelViewSet):
                 favorites = Favorite.objects.filter(user=request.user)
                 books = [favorite.book for favorite in favorites]
                 cache.set(cache_key, books, 60 * 15)
+            books = cache.get(cache_key)
+            print(books)
             serializer = BookModelSerializer(books, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
     

@@ -62,7 +62,7 @@ DEBUG = env("DEBUG")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -132,15 +132,19 @@ DATABASES = {
         'PORT': env("PORT"),
     }
 }
-print(DATABASES)
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
+        "LOCATION": "127.0.0.1:11211",
+    }
+}
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         #'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication'
-        
     ),
     'DEFAUTL_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
@@ -178,12 +182,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '127.0.0.1:11211',
-    }
-}
 
 
 # Static files (CSS, JavaScript, Images)
