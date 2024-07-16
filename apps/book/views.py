@@ -2,7 +2,6 @@ from rest_framework import  status, viewsets, permissions
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import action
-
 from .models import Book, Favorite
 from .serializers import BookModelSerializer
 from .permissions import IsOwner
