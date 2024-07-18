@@ -1,3 +1,4 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import  status, viewsets, permissions
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -5,11 +6,14 @@ from rest_framework.decorators import action
 from .models import Book, Favorite
 from .serializers import BookModelSerializer
 from .permissions import IsOwner
+from .filters import BookFilter
 
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.filter(is_deleted=False)
     serializer_class = BookModelSerializer # NOTE use BookSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwner]
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = BookFilter
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
