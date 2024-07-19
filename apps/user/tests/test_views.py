@@ -9,7 +9,7 @@ User = get_user_model()
 class UserViewSetTests(APITestCase):
 
     def setUp(self):
-        self.user = User.objects.create_user(email='user3@example.com', password='password123', is_verified=True )
+        self.user = User.objects.create_user(email='user3@example.com', password='password123', is_verified=False )
         self.superuser = User.objects.create_superuser(email='admin@example.com', password='admin123')
         print(f"User verification token: {self.user.verification_token}")
     
@@ -29,6 +29,8 @@ class UserViewSetTests(APITestCase):
         self.assertTrue(self.user.is_verified)
     
     def test_login(self):
+        url = reverse('verify-email', kwargs={'verification_token': self.user.verification_token})
+        self.client.get(url)
         url = reverse('login')
         data = {'email': 'user3@example.com', 'password': 'password123'}
         response = self.client.post(url, data, format='json')
