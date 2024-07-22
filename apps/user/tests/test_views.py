@@ -1,7 +1,3 @@
-
-
-
-
 import uuid
 from django.urls import reverse
 from django.test import TestCase
@@ -65,6 +61,7 @@ class LoginViewTestCase(TestCase):
         response = self.client.post(self.url, self.login_data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn('token', response.data)
+
 class LogoutViewTestCase(TestCase):
     def setUp(self):
         self.client = APIClient()
@@ -79,6 +76,7 @@ class LogoutViewTestCase(TestCase):
     def test_logout_user(self):
         response = self.client.post(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        
 class ChangePasswordViewTestCase(TestCase):
     def setUp(self):
         self.client = APIClient()

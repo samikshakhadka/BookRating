@@ -82,7 +82,7 @@ THIRD_PARTY_APPS = [
     'django_extensions',
     'drf_yasg',
     'django_filters',
-    'django_celery_results',
+   
 ]
 
 LOCAL_APPS = [
@@ -232,4 +232,4 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'UTC'
 
-CELERY_RESULT_BACKEND = 'django-db'
+# CELERY_RESULT_BACKEND = 'django-db'
