@@ -17,3 +17,6 @@ class CustomUserModelTest(TestCase):
         self.assertEqual(superuser.email, 'admin@example.com')
         self.assertTrue(superuser.is_superuser)
         self.assertTrue(superuser.is_staff)
+
+
+

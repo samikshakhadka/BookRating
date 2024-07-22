@@ -82,6 +82,7 @@ THIRD_PARTY_APPS = [
     'django_extensions',
     'drf_yasg',
     'django_filters',
+    'django_celery_results',
 ]
 
 LOCAL_APPS = [
@@ -222,3 +223,13 @@ EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
 SITE_URL = env('SITE_URL', default='http://localhost:8000')
+
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+
+CELERY_RESULT_BACKEND = 'django-db'

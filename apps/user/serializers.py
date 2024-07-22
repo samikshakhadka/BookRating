@@ -9,6 +9,7 @@ from rest_framework import serializers
 
 from .utils import send_verification_email
 
+from apps.user.tasks import send_verification_email_task
 
 
 User = get_user_model()
@@ -37,7 +38,8 @@ class RegisterSerializer(serializers.ModelSerializer):
             first_name=validated_data.get('first_name', ''),
             last_name=validated_data.get('last_name', '')
         )
-        send_verification_email(user)
+        #send_verification_email(user)
+        send_verification_email_task.delay(user.id)
         return user
 
 class LoginSerializer(serializers.Serializer):
