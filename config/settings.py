@@ -141,7 +141,7 @@ DATABASES = {
         'PORT': env("PORT"),
     }
 }
-print(DATABASES)
+# print(DATABASES)
 
 
 REST_FRAMEWORK = {
