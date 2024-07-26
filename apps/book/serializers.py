@@ -15,10 +15,11 @@ class FavoriteSerializer(serializers.ModelSerializer):
         return super().create(validated_data)
 
 class BookModelSerializer(serializers.ModelSerializer):
-    
+    created_by = serializers.ReadOnlyField(source='created_by.email')
+
     class Meta:
         model=Book
-        fields = ['id','title', 'author', 'description']
+        fields = ['id','title', 'author', 'description', 'created_by','is_deleted']
         read_only_fields = ['created_at', 'updated_at']
 
     def create(self, validated_data):

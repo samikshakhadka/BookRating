@@ -1,4 +1,4 @@
-# tasks.py
+import os
 from celery import shared_task
 from django.core.mail import send_mail
 from .models import CustomUser
@@ -10,6 +10,7 @@ from django.urls import reverse
 def send_verification_email_task(user_id):
     logger = logging.getLogger(__name__)
     try:
+        logger.info(f"EMAIL_HOST: {os.environ.get('EMAIL_HOST')}")
         user = CustomUser.objects.get(id=user_id)
         verification_url = f"{settings.SITE_URL}{reverse('verify-email', args=[user.verification_token])}"
         print(f"Verification URL: {verification_url}") 
@@ -23,3 +24,6 @@ def send_verification_email_task(user_id):
         logger.info(f"Verification email sent to {user.email}")
     except Exception as e:
         logger.error(f"Error sending verification email: {e}")
+
+
+

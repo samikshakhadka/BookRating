@@ -15,6 +15,9 @@ class BookViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_class = BookFilter
 
+    def perform_create(self, serializer):
+        serializer.save(created_by=self.request.user)
+
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         self.perform_destroy(instance)
@@ -22,9 +25,20 @@ class BookViewSet(viewsets.ModelViewSet):
     
     def perform_destroy(self, instance):
         instance.is_deleted=True
-        instance.save(updated_fields=['is_deleted'])
-        return super().perform_destroy(instance)
+        instance.save(update_fields=['is_deleted'])
+        
     
+    # def save(self, *args, **kwargs):
+    #     updated_fields = kwargs.pop('updated_fields', None)
+    #     super().save(*args, **kwargs)
+    #     if updated_fields:
+    #         # Custom logic to handle updated_fields if needed
+    #         pass
+    
+    # def perform_destroy(self, instance):
+    #     instance.is_deleted = True
+    #     instance.save(updated_fields=['is_deleted']) 
+
     @action(
         detail=True,
         methods=['post'],

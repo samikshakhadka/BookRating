@@ -10,7 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
-import environ
+import environ 
+print(environ.__file__)
 from pathlib import Path
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(
@@ -43,7 +44,8 @@ environ.Env.read_env()
 # ENV_FILE = str(ENV_DIR.path('.env'))  
 # environ.Env.read_env(ENV_FILE)
 
-SECRET_KEY = env("DJANGO_SECRET_KEY")
+SECRET_KEY ='5rV6TN9u2A42vageoMr5bJqLl4Ml63MWWi0PaIDsWE7MH4HyzesIbO2rsHu5U6ILy0A'
+#env("DJANGO_SECRET_KEY")
 DEBUG = env("DEBUG")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -134,11 +136,16 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env('DJANGO_DB_NAME'), 
-        'USER': env('DJANGO_DB_USER'),
-        'PASSWORD': env('DJANGO_DB_PASS'),
-        'HOST': env('DJANGO_DB_HOST'),
-        'PORT': env("PORT"),
+        'NAME': 'bookreview',
+        # env('DJANGO_DB_NAME'), 
+        'USER': 'sam',
+        # env('DJANGO_DB_USER'),
+        'PASSWORD':'1234567890',
+        # env('DJANGO_DB_PASS'),
+        'HOST': 'localhost',
+        #env('DJANGO_DB_HOST'),
+        'PORT': '5432'
+        #env("PORT"),
     }
 }
 # print(DATABASES)
@@ -216,12 +223,14 @@ AUTH_USER_MODEL = 'user.CustomUser'
 
 # Email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = env('EMAIL_HOST', default='smtp.your-email-provider.com')
+EMAIL_HOST = 'smtp.gmail.com'
+#env('EMAIL_HOST', default='smtp.smartattendance64@gmail.com')
 EMAIL_PORT = env('EMAIL_PORT', default=587)
 EMAIL_USE_TLS = env('EMAIL_USE_TLS', default=True)
-EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
+EMAIL_HOST_USER = 'smartattendance64@gmail.com'
+#env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = 'nzyqgajzftruczmf' #env('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL =  'smartattendance64@gmail.com' #env('DEFAULT_FROM_EMAIL')
 SITE_URL = env('SITE_URL', default='http://localhost:8000')
 
 
@@ -233,3 +242,5 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'UTC'
 
 # CELERY_RESULT_BACKEND = 'django-db'
+
+

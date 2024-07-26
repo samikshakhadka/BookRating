@@ -4,6 +4,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.urls import reverse
 from django.contrib.auth import authenticate
+from rest_framework.validators import UniqueValidator
 
 from rest_framework import serializers
 
@@ -22,7 +23,7 @@ class UserSerializer(serializers.ModelSerializer):
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
         required=True,
-        # validators= queryset=User.objects.all()
+        validators=[UniqueValidator(queryset=User.objects.all(), message="A user with that email already exists.")]
     )
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
 
@@ -52,14 +53,14 @@ class LoginSerializer(serializers.Serializer):
 
         if email and password:
             user = authenticate(request=self.context.get('request'), email=email, password=password)
-
+            print("============================", user)
             if user:
                 if not user.is_verified:
                     raise serializers.ValidationError("Email not verified. Please check your email to verify your account.")
                 
                 attrs['user'] = user
                 return attrs
-            else:
+            else: 
                 raise serializers.ValidationError("Invalid credentials. Please try again.")
         else:
             raise serializers.ValidationError("Must include 'email' and 'password'.")
