@@ -322,6 +322,7 @@ class ChangePasswordTests(ApiTestCase):
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         
+        #jskdhfkjfk
         #check asser passwrd or not
 
     # def test_change_password_with_invalid_old_password(self):
