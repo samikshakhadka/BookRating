@@ -323,6 +323,7 @@ class ChangePasswordTests(ApiTestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         
         #jskdhfkjfk
+        #ksjefk
         #check asser passwrd or not
 
     # def test_change_password_with_invalid_old_password(self):
