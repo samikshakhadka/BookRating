@@ -29,7 +29,6 @@ class RegisterView(generics.CreateAPIView):
 class VerifyEmail(APIView):
     def get(self, request, verification_token):
         user = get_object_or_404(User, verification_token=verification_token)
-        print("*********************", user)
         if user.is_verified:
             return Response({'message': 'Email already verified.'}, status=status.HTTP_400_BAD_REQUEST)
         user.is_verified = True
@@ -39,14 +38,11 @@ class VerifyEmail(APIView):
 class LoginView(APIView):
     def post(self, request):
         serializer = LoginSerializer(data=request.data, context={'request': request})
-        print("@@@@@@@@@@@@@@", serializer.is_valid())
-        print(serializer.errors)
         if serializer.is_valid():
-            print("@@@@@@@@@@@@@@")
-            email = serializer.validated_data['email']
-            user = User.objects.get(email=email)
+            # email = serializer.validated_data['email']
+            # user = User.objects.get(email=email)
+            user = serializer.validated_data['user']
             token, created = Token.objects.get_or_create(user=user)
-            print("000000000000000000")
             return Response({'token': token.key}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

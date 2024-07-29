@@ -53,7 +53,6 @@ class LoginSerializer(serializers.Serializer):
 
         if email and password:
             user = authenticate(request=self.context.get('request'), email=email, password=password)
-            print("============================", user)
             if user:
                 if not user.is_verified:
                     raise serializers.ValidationError("Email not verified. Please check your email to verify your account.")

@@ -33,8 +33,8 @@ class ApiTestCase(APITestCase, ApiTestMixin):
     def setUp(self):
         
         self.super_user = UserFactory(is_superuser=True, is_staff=True, password='password@123')
-        #self.user = UserFactory()
-        self.user = UserFactory(password='Apassword@123', is_verified=True)
+        self.user = UserFactory()
+        #self.user = UserFactory(password='Apassword@123', is_verified=True)
         self.book = BookFactory(created_by=self.user)
         self.client = APIClient()
         super().setUp() 
