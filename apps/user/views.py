@@ -1,19 +1,27 @@
 from django.contrib.auth import get_user_model, authenticate
 from django.contrib.auth import logout
 from django.shortcuts import get_object_or_404
-
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import viewsets
 from rest_framework import status, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
-
+from .serializers import UserSerializer
 from .utils import send_verification_email
-from .serializers import RegisterSerializer, LoginSerializer, ChangePasswordSerializer 
+from .serializers import RegisterSerializer, LoginSerializer, ChangePasswordSerializer , UserSerializer
+from .filters import CustomUserFilter
 
 
 User = get_user_model()
 
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = CustomUserFilter
+    
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
@@ -29,14 +37,12 @@ class VerifyEmail(APIView):
 
 class LoginView(APIView):
     def post(self, request):
-        print("**************************************")
         serializer = LoginSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
-            email = serializer.validated_data['email']
-            user = User.objects.get(email=email)
-            print("User--------------------------------->", user)
+            # email = serializer.validated_data['email']
+            # user = User.objects.get(email=email)
+            user = serializer.validated_data['user']
             token, created = Token.objects.get_or_create(user=user)
-            print("################################")
             return Response({'token': token.key}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
