@@ -23,7 +23,7 @@ APPS_DIR = os.path.join(PROJECT_DIR, 'apps')
 
 BASE_DIR = os.path.join(PROJECT_DIR, 'config')
 
-# ENV_DIR = environ.Path(__file__) - 2 
+ENV_DIR = environ.Path(__file__) - 2 
 
 env = environ.Env(
     DEBUG=(bool, False),
@@ -32,20 +32,20 @@ env = environ.Env(
     DJANGO_DB_USER=str,
     DJANGO_DB_PASS=str,
     DJANGO_DB_HOST=str,
-    EMAIL_HOST=str,
-    EMAIL_PORT=int,
+    DJANGO_DB_PORT= str,
+    # EMAIL_HOST=str,
+    EMAIL_PORT=str,
     EMAIL_USE_TLS=bool,
     EMAIL_HOST_USER=str,
     EMAIL_HOST_PASSWORD=str,
     DEFAULT_FROM_EMAIL=str,
     SITE_URL=str,
 )
-environ.Env.read_env()
-# ENV_FILE = str(ENV_DIR.path('.env'))  
-# environ.Env.read_env(ENV_FILE)
+# environ.Env.read_env()
+ENV_FILE = str(ENV_DIR.path('.env'))  
+environ.Env.read_env(ENV_FILE)
 
-SECRET_KEY ='5rV6TN9u2A42vageoMr5bJqLl4Ml63MWWi0PaIDsWE7MH4HyzesIbO2rsHu5U6ILy0A'
-#env("DJANGO_SECRET_KEY")
+SECRET_KEY =env("DJANGO_SECRET_KEY")
 DEBUG = env("DEBUG")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -64,7 +64,7 @@ DEBUG = env("DEBUG")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -136,19 +136,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'bookreview',
-        # env('DJANGO_DB_NAME'), 
-        'USER': 'sam',
-        # env('DJANGO_DB_USER'),
-        'PASSWORD':'1234567890',
-        # env('DJANGO_DB_PASS'),
-        'HOST': 'localhost',
-        #env('DJANGO_DB_HOST'),
-        'PORT': '5432'
-        #env("PORT"),
+        'NAME': env('DJANGO_DB_NAME'), 
+        'USER': env('DJANGO_DB_USER'),
+        'PASSWORD': env('DJANGO_DB_PASS'),
+        'HOST': env('DJANGO_DB_HOST'),
+        'PORT': env("DJANGO_DB_PORT"),
     }
 }
-# print(DATABASES)
+print(DATABASES)
 
 
 REST_FRAMEWORK = {
@@ -234,8 +229,8 @@ DEFAULT_FROM_EMAIL =  'smartattendance64@gmail.com' #env('DEFAULT_FROM_EMAIL')
 SITE_URL = env('SITE_URL', default='http://localhost:8000')
 
 
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'

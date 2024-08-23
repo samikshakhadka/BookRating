@@ -1,0 +1,52 @@
+services:
+ 
+
+    
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    restart: always
+
+
+  worker:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      command: ['celery','-A', 'config', 'worker', '--loglevel', 'info']
+      
+
+      depends_on:
+        - redis
+
+      restart: always 
+
+
+  web:
+    build: .
+    command: python /BookRatingCode/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/dockercode
+    ports:
+      - "8000:8000"
+
+    env_file:
+      - .env
+
+    environment:
+      - DJANGO_DB_HOST=localhost  # Update this to your local PostgreSQL host
+      - DJANGO_DB_PORT=5432                  # Update this if your local PostgreSQL uses a different port
+    depends_on:
+      - redis
+
+    network_mode: "host"
+
+    # depends_on:
+    #   - db
+
+# volumes:
+      # postgres_data:
