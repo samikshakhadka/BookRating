@@ -37,6 +37,9 @@ services:
     env_file:
       - .env
 
+    extra_hosts:
+    - "host.docker.internal:172.17.0.1"  # Replace with your host's IP
+
     environment:
       - DJANGO_DB_HOST=localhost  # Update this to your local PostgreSQL host
       - DJANGO_DB_PORT=5432                  # Update this if your local PostgreSQL uses a different port

@@ -33,7 +33,6 @@ env = environ.Env(
     DJANGO_DB_PASS=str,
     DJANGO_DB_HOST=str,
     DJANGO_DB_PORT= str,
-    # EMAIL_HOST=str,
     EMAIL_PORT=str,
     EMAIL_USE_TLS=bool,
     EMAIL_HOST_USER=str,
@@ -148,7 +147,6 @@ print(DATABASES)
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        #'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication'
         
@@ -218,14 +216,12 @@ AUTH_USER_MODEL = 'user.CustomUser'
 
 # Email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-#env('EMAIL_HOST', default='smtp.smartattendance64@gmail.com')
+EMAIL_HOST = env('EMAIL_HOST', default='smtp.smartattendance64@gmail.com')
 EMAIL_PORT = env('EMAIL_PORT', default=587)
 EMAIL_USE_TLS = env('EMAIL_USE_TLS', default=True)
-EMAIL_HOST_USER = 'smartattendance64@gmail.com'
-#env('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = 'nzyqgajzftruczmf' #env('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL =  'smartattendance64@gmail.com' #env('DEFAULT_FROM_EMAIL')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL =  env('DEFAULT_FROM_EMAIL')
 SITE_URL = env('SITE_URL', default='http://localhost:8000')
 
 
@@ -236,6 +232,6 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'UTC'
 
-# CELERY_RESULT_BACKEND = 'django-db'
+
 
 
