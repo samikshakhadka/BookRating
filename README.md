@@ -1,6 +1,4 @@
-Given that you're using Docker, it's important to include specific instructions and details related to Docker in the `README.md`. Here's the updated content with Docker-specific instructions:
 
----
 
 # BookRating Site
 
@@ -94,6 +92,3 @@ docker-compose run web python manage.py test
 
 Contributions are welcome! Please submit a pull request or open an issue to discuss the changes you would like to make.
 
----
-
-This version of the `README.md` includes Docker-specific instructions for setting up and running the project. It also emphasizes the need to configure environment variables correctly, particularly the database host, which is crucial when using a locally hosted database with Docker.
