@@ -15,6 +15,7 @@ Welcome to the **BookRating Site**! This project is a Django-based web applicati
 - **Rating System**: Calculate and display book ratings and average ratings.
 - **Custom Django Command**: A custom Django management command that fetches data from the [Google Books API](https://www.googleapis.com/books/v1/volumes?q={query}&maxResults={max_results}) and populates the book model.
 - **Unit Testing**: Comprehensive unit tests written using Factory Boy and Mock.
+- **Signals**: Implementation of django signals.
 
 ## Technology Stack
 
