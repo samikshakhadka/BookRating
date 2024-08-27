@@ -1,3 +1,5 @@
+
+
 services:
  
 
@@ -37,8 +39,8 @@ services:
     env_file:
       - .env
 
-    extra_hosts:
-    - "host.docker.internal:172.17.0.1"  # Replace with your host's IP
+    # extra_hosts:
+    # - "host.docker.internal:172.17.0.1"  # Replace with your host's IP
 
     environment:
       - DJANGO_DB_HOST=localhost  # Update this to your local PostgreSQL host
@@ -47,6 +49,8 @@ services:
       - redis
 
     network_mode: "host"
+
+    restart: always
 
     # depends_on:
     #   - db
